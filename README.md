@@ -60,6 +60,12 @@ streamlit run app.py
 
 User enters text → Select language → Click translate → Get output
 
+🌐 Live Demo
+
+
+Click here to use the app:
+
+👉 https://codealphalanguagetranslationtool-hymhtomj9zrrevczrfcb47.streamlit.app/
 
 
 👨‍💻 Author
