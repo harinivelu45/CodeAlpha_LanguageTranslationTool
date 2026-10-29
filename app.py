@@ -1,5 +1,3 @@
- HEAD
-
 import streamlit as st
 from utils.translator import translate_text, detect_language
 from utils.speech import text_to_speech
@@ -24,30 +22,12 @@ languages = {
     "Chinese": "zh-CN",
     "Arabic": "ar"
 }
-=======
 
-from deep_translator import GoogleTranslator
-from deep_translator.exceptions import TooManyRequests
-from langdetect import detect
-import time
+if "history" not in st.session_state:
+    st.session_state.history = []
 
+col1, col2 = st.columns(2)
 
-def translate_text(text, source, target):
-    if not text or not text.strip():
-        return None
-
-
-    for attempt in range(2):
-        try:
-            translator = GoogleTranslator(
-                source=source,
-                target=target
-            )
-
-            result = translator.translate(text)
-            return result
-
-<<<<<<< HEAD
 with col1:
     source = st.selectbox(
         "Source Language",
@@ -75,11 +55,7 @@ if st.button("🌐 Translate", type="primary"):
         st.warning("Choose different source and target languages.")
 
     else:
-        src = (
-            "auto"
-            if source == "Auto Detect"
-            else languages[source]
-        )
+        src = "auto" if source == "Auto Detect" else languages[source]
 
         with st.spinner("Translating..."):
             translated = translate_text(
@@ -93,7 +69,6 @@ if st.button("🌐 Translate", type="primary"):
                 "Translation service is temporarily unavailable. "
                 "Please wait and try again later."
             )
-
         else:
             st.subheader("Translated Text")
             st.text_area(
@@ -103,7 +78,6 @@ if st.button("🌐 Translate", type="primary"):
             )
 
             detected = detect_language(text)
-
             st.write(f"Detected Language: {detected}")
             st.write(f"Characters: {len(text)}")
             st.write(f"Words: {len(text.split())}")
@@ -125,9 +99,10 @@ if st.button("🌐 Translate", type="primary"):
                         file_name="translation.mp3",
                         mime="audio/mpeg"
                     )
-
             except Exception:
-                st.warning("Speech generation is unavailable right now.")
+                st.warning(
+                    "Speech generation is unavailable right now."
+                )
 
             st.session_state.history.append({
                 "input": text,
@@ -144,24 +119,3 @@ for item in reversed(st.session_state.history[-10:]):
     st.sidebar.write("Input:", item["input"][:50])
     st.sidebar.write("Output:", item["output"][:50])
     st.sidebar.divider()
-=======
-        except TooManyRequests:
-            if attempt == 0:
-                time.sleep(3)
-            else:
-                print("Translation service rate limit reached.")
-                return None
-
-        except Exception as error:
-            print(f"Translation error: {error}")
-            return None
-
-    return None
-
-
-def detect_language(text):
-    try:
-        return detect(text)
-    except Exception:
-        return "Unknown"
-
