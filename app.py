@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+ HEAD
 
 import streamlit as st
 from utils.translator import translate_text, detect_language
@@ -35,7 +35,7 @@ import time
 def translate_text(text, source, target):
     if not text or not text.strip():
         return None
->>>>>>> 1392c7f1d1200b6beba1ea1dbd271924d5db8fa3
+
 
     for attempt in range(2):
         try:
@@ -164,4 +164,4 @@ def detect_language(text):
         return detect(text)
     except Exception:
         return "Unknown"
->>>>>>> 1392c7f1d1200b6beba1ea1dbd271924d5db8fa3
+
