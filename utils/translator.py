@@ -19,12 +19,11 @@ def translate_text(text, source, target):
         if source == "Unknown":
             return None
 
-        # Split text into chunks of at most 450 characters
         chunks = [
             text[i:i + 450]
             for i in range(0, len(text), 450)
         ]
-        translated_chunks = []
+        results = []
 
         for chunk in chunks:
             response = requests.get(
@@ -42,11 +41,11 @@ def translate_text(text, source, target):
                 print("Translation API error:", data.get("responseDetails"))
                 return None
 
-            translated_chunks.append(
+            results.append(
                 data["responseData"]["translatedText"]
             )
 
-        return " ".join(translated_chunks)
+        return " ".join(results)
 
     except Exception as error:
         print("Translation error:", error)

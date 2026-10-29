@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 import streamlit as st
 from utils.translator import translate_text, detect_language
@@ -23,12 +24,30 @@ languages = {
     "Chinese": "zh-CN",
     "Arabic": "ar"
 }
+=======
 
-if "history" not in st.session_state:
-    st.session_state.history = []
+from deep_translator import GoogleTranslator
+from deep_translator.exceptions import TooManyRequests
+from langdetect import detect
+import time
 
-col1, col2 = st.columns(2)
 
+def translate_text(text, source, target):
+    if not text or not text.strip():
+        return None
+>>>>>>> 1392c7f1d1200b6beba1ea1dbd271924d5db8fa3
+
+    for attempt in range(2):
+        try:
+            translator = GoogleTranslator(
+                source=source,
+                target=target
+            )
+
+            result = translator.translate(text)
+            return result
+
+<<<<<<< HEAD
 with col1:
     source = st.selectbox(
         "Source Language",
@@ -125,3 +144,24 @@ for item in reversed(st.session_state.history[-10:]):
     st.sidebar.write("Input:", item["input"][:50])
     st.sidebar.write("Output:", item["output"][:50])
     st.sidebar.divider()
+=======
+        except TooManyRequests:
+            if attempt == 0:
+                time.sleep(3)
+            else:
+                print("Translation service rate limit reached.")
+                return None
+
+        except Exception as error:
+            print(f"Translation error: {error}")
+            return None
+
+    return None
+
+
+def detect_language(text):
+    try:
+        return detect(text)
+    except Exception:
+        return "Unknown"
+>>>>>>> 1392c7f1d1200b6beba1ea1dbd271924d5db8fa3
